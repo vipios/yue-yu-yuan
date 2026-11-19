@@ -7,7 +7,7 @@ root = Path(__file__).resolve().parent
 # 源的对外根地址。图标写成绝对 URL，是因为相对路径各家客户端（Sileo/Zebra/Cydia）
 # 支持程度不一致，绝对 URL 最保险。将来换域名只改这一行，重跑一次索引即可，
 # deb 包和 Packages 结构都不用动。
-BASE_URL = 'https://vipios.github.io/'
+BASE_URL = 'https://vipios.github.io/yue-yu-yuan/'
 
 # 图标本地化（2026-11-01）
 # ---------------------------------------------------------------

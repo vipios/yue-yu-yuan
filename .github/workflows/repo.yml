@@ -6,8 +6,6 @@ on:
     paths:
       - 'debs/**'
       - 'build_repo.py'
-      - 'build_appstore.py'
-      - 'appstore'
       - 'index.html'
       - 'CydiaIcon.png'
       - 'flag2.png'
@@ -20,54 +18,28 @@ on:
 
 permissions:
   contents: write
-  pages: write
-  id-token: write
 
 concurrency:
-  group: sileo-pages
+  group: sileo-yue-yu-yuan
   cancel-in-progress: false
 
 jobs:
   index:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-
-      - name: Aggregate appstore sources
-        run: python3 build_appstore.py
 
       - name: Build package index
         run: python3 build_repo.py
 
-      - name: Commit updated index only
+      - name: Commit updated index
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add Packages Packages.gz Packages.bz2 Release appstore stats.json
+          git add Packages Packages.gz Packages.bz2 Release
           if ! git diff --cached --quiet; then
             git commit -m "Update package index"
             git pull --rebase --autostash origin main
             git push origin HEAD:main
           fi
-
-      - uses: actions/configure-pages@v5
-
-      - name: Prepare public files (explicit allowlist)
-        run: |
-          mkdir -p _site/debs
-          cp index.html CydiaIcon.png flag2.png bg_news.jpg Release Packages Packages.gz Packages.bz2 appstore _site/
-          # 本地压缩图标：不放进来索引里的 Icon 会全部 404
-          if [ -d icons ]; then cp -r icons _site/icons; fi
-          if [ -d debs ]; then cp -r debs/. _site/debs/; fi
-          touch _site/.nojekyll
-
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: _site
-
-      - uses: actions/deploy-pages@v4
