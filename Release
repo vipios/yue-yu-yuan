@@ -6,7 +6,7 @@ Version: 1.0
 Architectures: iphoneos-arm64 iphoneos-arm64e
 Components: main
 Description: vipios 的 Sileo 软件源
-Date: Fri, 20 Nov 2026 22:52:14 +0000
+Date: Sat, 21 Nov 2026 03:38:57 +0000
 MD5Sum:
  78580c1857eeac3cbbe897889beabfc9 32305 Packages
  83d65ce10daf12dbba3db97afdb22edc 14521 Packages.gz
